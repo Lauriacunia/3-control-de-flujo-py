@@ -6,9 +6,6 @@
     En caso de no introducir una opción válida, el programa informará de que no es correcta.
  """
 
-# SOLUCIÓN con WHILE
-running = True
-
 
 def is_valid_input(*args):
     # podrían agregarse mas validaciones...
@@ -30,15 +27,12 @@ def restar(n1, n2):
     print(f"✅ La resta de {n1} y {n2} es: {n1 - n2}")
 
 
-def go_exit():
-    global running
+def close_or_continue():
     exit = input("🔁 ¿Desea realizar otra operación? (S/N): ")
     if exit == "S" or exit == "s":
-        return True
+        calculate()
     else:
         print("👋 Gracias por utilizar el programa")
-        running = False
-        return False
 
 
 def welcome():
@@ -48,37 +42,33 @@ def welcome():
 
 
 def calculate():
-    global running
-    while running:
-        n1 = input("📲 Ingrese el primer numero: ")
-        n2 = input("📲 Ingrese el segundo numero: ")
-        if is_valid_input(n1, n2):
-            n1, n2 = int(n1), int(n2)
-            option = show_options()
-            if is_valid_input(option):
-                option = int(option)
-                if option == 1:
-                    sumar(n1, n2)
-                    go_exit()
-                elif option == 2:
-                    restar(n1, n2)
-                    go_exit()
-                elif option == 3:
-                    print(
-                        "🔕 Lo sentimos: Operación no disponible. 👋Saliendo del programa...")
-                    running = False
-                elif option == 4:
-                    print("👋 Gracias por utilizar el programa")
-                    running = False
-                else:  # option != 1, 2, 3, 4
-                    print("🔕 Lo sentimos, opción no válida.")
-                    go_exit()
-            else:  # option not a number
+    n1 = input("📲 Ingrese el primer numero: ")
+    n2 = input("📲 Ingrese el segundo numero: ")
+    if is_valid_input(n1, n2):
+        n1, n2 = int(n1), int(n2)
+        option = show_options()
+        if is_valid_input(option):
+            option = int(option)
+            if option == 1:
+                sumar(n1, n2)
+                close_or_continue()
+            elif option == 2:
+                restar(n1, n2)
+                close_or_continue()
+            elif option == 3:
+                print(
+                    "🔕 Lo sentimos: Operación no disponible. 👋Saliendo del programa...")
+            elif option == 4:
+                print("👋 Gracias por utilizar el programa")
+            else:  # option != 1, 2, 3, 4
                 print("🔕 Lo sentimos, opción no válida.")
-                go_exit()
-        else:  # n1 or n2 not a number
-            print("🔕 Error, ingrese números válidos por favor")
-            calculate()
+                close_or_continue()
+        else:  # option not a number
+            print("🔕 Lo sentimos, opción no válida.")
+            close_or_continue()
+    else:  # n1 or n2 not a number
+        print("🔕 Error, ingrese números válidos por favor")
+        calculate()
 
 
 def run():
@@ -87,5 +77,3 @@ def run():
 
 
 run()
-
-# Consulta !!: no se si es necesario poner un break en el while luego de setear running = False
